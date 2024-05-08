@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {{>HeaderLinks}}
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<style>
+  body {
+    background: url('/images/signup1.png') no-repeat center center;
+    background-size: cover;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .navbar .nav-link,
+  .navbar .navbar-brand {
+    color: #ffffff;
+    font-size: 1.5rem;
+  }
+
+  .navbar .navbar-brand:hover,
+  .navbar .nav-item:nth-child(1):hover .nav-link,
+  .navbar .nav-item:nth-child(2):hover .nav-link,
+  .navbar .nav-item:nth-child(3):hover .nav-link,
+  .navbar .nav-item:nth-child(4):hover .nav-link {
+    transform: scale(1.1);
+    color: orangered;
+  }
+</style>
+
+<body>
+  {{>Navbar }}
+  {{>Signup}}
+  <script src="../../jq/jquery.js"></script>
+  <script src="../../js/bootstrap.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{{>HeaderLinks}}
+<link rel="stylesheet" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<style>
+    body{
+        background: url('/images/loginbg.jpeg')no-repeat center center;
+        font-weight: bold;
+        color: white;
+    }
+    .navbar .nav-link,
+  .navbar .navbar-brand {
+    {{!-- color: #ffffff; --}}
+    font-size: 1.5rem;
+  }
+      .navbar .navbar-brand:hover,
+  .navbar .nav-item:nth-child(1):hover .nav-link,
+  .navbar .nav-item:nth-child(2):hover .nav-link,
+  .navbar .nav-item:nth-child(3):hover .nav-link,
+  .navbar .nav-item:nth-child(4):hover .nav-link {
+    transform: scale(1.1);
+  }
+</style>
+<body>
+{{>Navbar}}
+{{>Login}}
+    <script src="../../jq/jquery.js"></script>
+    <script src="../../js/bootstrap.js"></script>
+</body>
+</html>

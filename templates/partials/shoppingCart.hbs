@@ -1,0 +1,139 @@
+{{#if MenuDatas}}
+<div class="container-fluid main_header">
+  <div class="row">
+    <div class="col-md-10 col-12 mx-auto">
+      <div class="row mt-2">
+        <div class="container_sc">
+          <div class="col-md-6 col-12 sc_left">
+            <hr class="hr_sc_left">
+            <div class="header">
+              <h3 class="header_item">Item</h3>
+              <h3 class="header_quantity">Quantity</h3>
+              <h3 class="header_price">Price</h3>
+            </div>
+            <hr class="hr_sc_left">
+            {{# each MenuDatas}}
+            <div class="body mb-1">
+              <div class="sc_item">{{this.item.name}}</div>
+              <div class="sc_quantity">
+                <button class="btn btn-link mx-2">-</button>
+                <span id="quantity">{{this.quantity}}</span>
+                <button class="btn btn-link mx-2">+</button>
+              </div>
+              <div class="sc_price">&#8377;<span id="price">{{this.price}}</span><i class="fa-solid fa-trash delete-btn"></i></div>
+            </div>
+            {{/each}}
+          </div>
+          <div class="col-md-6 col-12 sc_right">
+            <div>
+              <h2>Billing Details : </h2>
+            </div>
+            <div class="sc_bottomright mt-2">
+              <p class="p_sc_right p_sc_right_1">Item Total</p>
+              <p>&#8377; <span id="itemTotal">0</span></p>
+            </div>
+            <div class="sc_bottomright">
+              <p class="p_sc_right p_sc_right_2">GST and Restaurant Charges</p>
+              <p>&#8377; <span id="totalWithGST">0.00</span></p>
+            </div>
+            <hr>
+            <div class="sc_bottomright">
+              <p class="p_sc_right">Total To Pay</p>
+              <p>&#8377; <span id="totalToPay">0.00</span></p>
+            </div>
+            <hr>
+            <div class="sc_bottomright mt-2 placeorderbtn">
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                Place Order
+              </button>
+              {{>checkout}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{else}}
+<div class="row">
+  <div class="container-fluid main_header">
+    <div class="row">
+      <div class="col-md-10 col-12 mx-auto">
+        <div class="row mt-2">
+          <div class="container_sc">
+            <h2>No Items in cart</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{/if}}
+
+<script>document.querySelectorAll('.sc_quantity').forEach((quantityWrapper) => {
+    const quantityElement = quantityWrapper.querySelector('span#quantity');
+    const priceElement = quantityWrapper.closest('.body').querySelector('span#price');
+    const reduceButton = quantityWrapper.querySelector('button:first-child');
+    const increaseButton = quantityWrapper.querySelector('button:last-child');
+    const deleteButton = quantityWrapper.closest('.body').querySelector('.delete-btn');
+
+    reduceButton.addEventListener('click', () => {
+      let currentQuantity = parseInt(quantityElement.textContent);
+      if (currentQuantity > 0) {
+        currentQuantity--;
+        quantityElement.textContent = currentQuantity;
+        updateTotalCost();
+        updateTotalPriceInModal();
+      }
+    });
+
+    increaseButton.addEventListener('click', () => {
+      let currentQuantity = parseInt(quantityElement.textContent);
+      currentQuantity++;
+      quantityElement.textContent = currentQuantity;
+      updateTotalCost();
+      updateTotalPriceInModal();
+    });
+
+    deleteButton.addEventListener('click', () => {
+        quantityElement.closest('.body').remove();
+        updateTotalCost();
+        updateTotalPriceInModal();
+    });
+  });
+
+    const updateTotalPriceInModal = () => {
+    const totalPriceModalElement = document.getElementById('staticBackdropLabel');
+    const totalPrice = parseFloat(document.getElementById('totalToPay').textContent);
+    totalPriceModalElement.innerHTML = `<span>Total: </span>&#8377;${totalPrice.toFixed(2)}`;
+  };
+  const itemTotalElement = document.getElementById('itemTotal');
+  const totalWithGSTElement = document.getElementById('totalWithGST');
+  const totalToPayElement = document.getElementById('totalToPay');
+
+  const updateTotalCost = () => {
+    let totalItemsPrice = 0;
+    document.querySelectorAll('.body').forEach((item) => {
+      const pricePerItem = parseFloat(item.querySelector('span#price').textContent);
+      const quantity = parseInt(item.querySelector('span#quantity').textContent);
+      totalItemsPrice += pricePerItem * quantity;
+    });
+    updateTotalCostDisplay(totalItemsPrice);
+  };
+
+  const updateTotalCostDisplay = (totalItemsPrice) => {
+    const totalWithGST = calculateTotalCostWithGST(totalItemsPrice);
+    const totalToPay = totalItemsPrice + totalWithGST;
+    itemTotalElement.textContent = totalItemsPrice.toFixed(2);
+    totalWithGSTElement.textContent = totalWithGST.toFixed(2);
+    totalToPayElement.textContent = totalToPay.toFixed(2);
+  };
+
+  const calculateTotalCostWithGST = (originalCost) => {
+    const gstAmount = (originalCost * 18) / 100;
+    return gstAmount;
+  };
+
+  updateTotalCost();
+
+</script>

@@ -1,0 +1,21 @@
+<div class="container-fluid main_header">
+  <div class="row">
+    <div class="col-md-10 col-12 mx-auto">
+      <div class="row mt-5">
+        {{# each MenuDatas}}
+          {{# each this }}
+            <div class="card mt-5">
+              <img class="img mt-1" src={{this.image}} style="width: 16rem; height: 11rem;" alt="{{this.name}}" />  
+              <div class="card-body">
+                <h5 class="card-title">{{this.name}}</h5>
+                Price: &#8377;{{this.price}}
+                <p>Category: {{this.category}}</p>
+                <a href="/add-to-cart/{{this._id}}" class="btn btn-primary btn-fixed-bottom">Add to Cart</a>
+              </div>
+            </div>
+          {{/each}}
+        {{/each}}
+      </div>
+    </div>
+  </div>
+</div>
